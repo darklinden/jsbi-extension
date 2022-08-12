@@ -1,41 +1,36 @@
 import * as fs from 'fs'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { transformSync } from '@babel/core'
+import { default as x } from 'babel-plugin-transform-jsbi-to-bigint'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const folder = path.join(__dirname, '..', 'dist', 'cjs');
+const src_path = path.join(__dirname, '..', 'src', 'index.ts');
+const des_path = path.join(__dirname, '..', 'dist', 'cjs', 'index.cjs');
 
-fs.readdir(folder, (err, files) => {
-    files.forEach(file => {
-        // console.log(file);
-        const file_path = path.join(folder, file);
-        let des_path = '';
-        if (file_path.endsWith('.js')) {
-            des_path = file_path.substring(0, file_path.length - 3) + '.cjs';
-        }
-        else if (file_path.endsWith('.js.map')) {
-            des_path = file_path.substring(0, file_path.length - 7) + '.cjs.map';
-        }
+let original = fs.readFileSync(src_path, { encoding: 'utf8' });
 
-        if (des_path.length) {
-            fs.rename(file_path, des_path, function (err) {
-                if (err) console.log('ERROR: ' + err);
-
-                let original = fs.readFileSync(des_path, { encoding: 'utf8' });
-
-                let lines = original.split('\n');
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i];
-                    line = line.replace(/require\(\"\.\/(.*)\"\)/g, 'require("./' + '$1' + '.cjs")');
-                    lines[i] = line;
-                }
-
-                original = lines.join('\n');
-                fs.writeFileSync(des_path, original);
-            });
-        }
-    });
+const result = transformSync(original, {
+    presets: ["@babel/preset-typescript"],
+    filename: src_path,
+    plugins: [x]
 });
 
+fs.writeFileSync(des_path, result.code);
+
+const declare_path = path.join(__dirname, '..', 'dist', 'cjs', 'index.d.ts');
+original = fs.readFileSync(declare_path, { encoding: 'utf8' });
+
+let lines = original.split('\n');
+lines.splice(0, 1);
+for (let i = 1; i < lines.length; i++) {
+    let line = lines[i];
+
+    line = line.replace(/JSBI/g, 'bigint');
+    lines[i] = line;
+}
+
+original = lines.join('\n');
+fs.writeFileSync(declare_path, original);

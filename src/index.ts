@@ -6,7 +6,7 @@ export namespace JSBIEx {
     export const bprecision = JSBI.BigInt(precision);
 
     const jsbiCommonMapCache: Map<number, JSBI> = new Map();
-    export function toJSBI(value: number | JSBI): JSBI {
+    export function toBI(value: number | JSBI): JSBI {
         if (typeof value == 'number') {
             let ret: JSBI = null;
             const intValue = Math.round(value);
@@ -27,17 +27,17 @@ export namespace JSBIEx {
     export const Number_MAX_SAFE_INTEGER = JSBI.BigInt(Number.MAX_SAFE_INTEGER);
 
     export function Max(a: number | JSBI, b: number | JSBI): JSBI {
-        const ba = toJSBI(a), bb = toJSBI(b);
+        const ba = toBI(a), bb = toBI(b);
         return JSBI.greaterThan(ba, bb) ? ba : bb;
     }
 
     export function Min(a: number | JSBI, b: number | JSBI): JSBI {
-        const ba = toJSBI(a), bb = toJSBI(b);
+        const ba = toBI(a), bb = toBI(b);
         return JSBI.lessThan(ba, bb) ? ba : bb;
     }
 
     export function Clamp(value: number | JSBI, min: number | JSBI, max: number | JSBI): JSBI {
-        const bValue = toJSBI(value), bMin = toJSBI(min), bMax = toJSBI(max);
+        const bValue = toBI(value), bMin = toBI(min), bMax = toBI(max);
         return JSBI.lessThan(bValue, bMin)
             ? bMin
             : JSBI.greaterThan(bValue, bMax) ? bMax : bValue;
@@ -58,14 +58,14 @@ export namespace JSBIEx {
         }
         else {
             // big int 
-            let bi: JSBI = typeof value == 'number' ? toJSBI(value) : value;
+            let bi: JSBI = typeof value == 'number' ? toBI(value) : value;
             if (typeof mul == 'number') {
                 if (Math.floor(mul) == mul) {
-                    bi = JSBI.multiply(bi, toJSBI(mul));
+                    bi = JSBI.multiply(bi, toBI(mul));
                 }
                 else {
                     // 4 位精度
-                    bi = JSBI.multiply(bi, toJSBI(mul * precision));
+                    bi = JSBI.multiply(bi, toBI(mul * precision));
                     bi = JSBI.divide(bi, bprecision);
                 }
             }
@@ -78,7 +78,7 @@ export namespace JSBIEx {
     }
 
     export function MulBI(value: number | JSBI, mul: number | JSBI): JSBI {
-        return toJSBI(Mul(value, mul));
+        return toBI(Mul(value, mul));
     }
 
     export function Div(value: number | JSBI, div: number | JSBI): JSBI | number {
@@ -96,9 +96,9 @@ export namespace JSBIEx {
         }
         else {
             // big int 
-            let bi: JSBI = typeof value == 'number' ? toJSBI(value) : value;
+            let bi: JSBI = typeof value == 'number' ? toBI(value) : value;
             bi = JSBI.multiply(bi, bprecision);
-            bi = JSBI.divide(bi, toJSBI(div));
+            bi = JSBI.divide(bi, toBI(div));
             if (JSBI.greaterThan(bi, Number_MIN_SAFE_INTEGER) && JSBI.lessThan(bi, Number_MAX_SAFE_INTEGER)) {
                 return JSBI.toNumber(bi) / precision;
             }
@@ -113,7 +113,7 @@ export namespace JSBIEx {
     }
 
     export function DivBI(value: number | JSBI, div: number | JSBI): JSBI {
-        return toJSBI(Div(value, div));
+        return toBI(Div(value, div));
     }
 
     const jsbiPowMapCache: Map<number, Map<number, JSBI | number>> = new Map();

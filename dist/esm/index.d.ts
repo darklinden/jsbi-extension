@@ -2,7 +2,7 @@ import JSBI from "jsbi";
 export declare namespace JSBIEx {
     const precision = 10000;
     const bprecision: JSBI;
-    function toJSBI(value: number | JSBI): JSBI;
+    function toBI(value: number | JSBI): JSBI;
     const Number_MIN_SAFE_INTEGER: JSBI;
     const Number_MAX_SAFE_INTEGER: JSBI;
     function Max(a: number | JSBI, b: number | JSBI): JSBI;
