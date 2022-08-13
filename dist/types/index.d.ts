@@ -1,0 +1,33 @@
+export declare type BI = bigint;
+export declare type NBI = number | BI;
+export declare namespace BIEx {
+    function toBI(value: NBI): BI;
+    function toNumTry(value: NBI): NBI;
+    function toNum(value: NBI): number;
+    const precision = 10000;
+    const bprecision: BI;
+    const Number_MIN_SAFE_INTEGER: BI;
+    const Number_MAX_SAFE_INTEGER: BI;
+    function Max(a: NBI, b: NBI): NBI;
+    function MaxBI(a: NBI, b: NBI): BI;
+    function Min(a: NBI, b: NBI): NBI;
+    function MinBI(a: NBI, b: NBI): BI;
+    function E(a: NBI, b: NBI): boolean;
+    function NE(a: NBI, b: NBI): boolean;
+    function L(a: NBI, b: NBI): boolean;
+    function LE(a: NBI, b: NBI): boolean;
+    function G(a: NBI, b: NBI): boolean;
+    function GE(a: NBI, b: NBI): boolean;
+    function Clamp(value: NBI, min: NBI, max: NBI): NBI;
+    function ClampBI(value: NBI, min: NBI, max: NBI): BI;
+    function Add(a: NBI, b: NBI): NBI;
+    function AddBI(a: NBI, b: NBI): BI;
+    function Sub(a: NBI, b: NBI): NBI;
+    function SubBI(a: NBI, b: NBI): BI;
+    function Mul(value: NBI, mul: NBI): NBI;
+    function MulBI(value: NBI, mul: NBI): BI;
+    function Div(value: NBI, div: NBI): BI | number;
+    function DivBI(value: NBI, div: NBI): BI;
+    function ClearCache(): void;
+    function Pow(base: number, exponent: number): BI | number;
+}
