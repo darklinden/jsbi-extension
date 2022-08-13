@@ -15,13 +15,17 @@ export var BIEx;
             }
             return ret || JSBI.BigInt(intValue);
         }
-        else
-            return value;
+        else if (typeof value == 'string') {
+            return JSBI.BigInt(value);
+        }
+        return value;
     }
     BIEx.toBI = toBI;
     function toNumTry(value) {
         if (typeof value == 'number')
             return value;
+        if (typeof value == 'string')
+            value = toBI(value);
         if (JSBI.greaterThan(value, BIEx.Number_MIN_SAFE_INTEGER) && JSBI.lessThan(value, BIEx.Number_MAX_SAFE_INTEGER)) {
             return JSBI.toNumber(value);
         }

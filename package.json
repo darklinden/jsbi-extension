@@ -12,21 +12,21 @@
     "description": "",
     "exports": {
         ".": {
-            "types": "./types/index.d.ts",
+            "types": "./dist/types/index.d.ts",
             "import": "./dist/esm/index.mjs",
             "require": "./dist/cjs/index.cjs"
         }
     },
     "main": "./dist/cjs/index.cjs",
-    "types": "./types/index.d.ts",
+    "types": "./dist/types/index.d.ts",
     "author": "",
     "dependencies": {
         "jsbi": "^4.3.0"
     },
     "scripts": {
         "watch": "tsc --watch --noEmit --noErrorTruncation --pretty",
-        "build-cjs": "rm -rf ./dist && npx tsc --project tsconfig.cjs.json && node ./tools/wrap-cjs-babel-jsbi",
-        "build-esm": "rm -rf ./dist && npx tsc --project tsconfig.esm.json && node ./tools/wrap-esm"
+        "build-cjs": "rm -rf ./dist && npm i && npx tsc --project tsconfig.cjs.json && node ./tools/wrap-cjs-babel-jsbi && rm -rf ./node_modules",
+        "build-esm": "rm -rf ./dist && npm i && npx tsc --project tsconfig.esm.json && node ./tools/wrap-esm && rm -rf ./node_modules"
     },
     "devDependencies": {
         "@babel/core": "^7.18.10",
