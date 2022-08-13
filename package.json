@@ -12,23 +12,26 @@
     "description": "",
     "exports": {
         ".": {
+            "types": "./types/index.d.ts",
             "import": "./dist/esm/index.mjs",
             "require": "./dist/cjs/index.cjs"
         }
     },
     "main": "./dist/cjs/index.cjs",
+    "types": "./types/index.d.ts",
     "author": "",
     "dependencies": {
         "jsbi": "^4.3.0"
     },
     "scripts": {
         "watch": "tsc --watch --noEmit --noErrorTruncation --pretty",
-        "build": "rm -rf ./dist && npx tsc --project tsconfig.esm.json && npm run build:wrap-esm && npx tsc --project tsconfig.cjs.json && npm run build:wrap-cjs",
-        "build:wrap-cjs": "node ./tools/wrap-cjs",
-        "build:wrap-esm": "node ./tools/wrap-esm"
+        "build-cjs": "rm -rf ./dist && npx tsc --project tsconfig.cjs.json && node ./tools/wrap-cjs-babel-jsbi",
+        "build-esm": "rm -rf ./dist && npx tsc --project tsconfig.esm.json && node ./tools/wrap-esm"
     },
     "devDependencies": {
         "@babel/core": "^7.18.10",
+        "@babel/plugin-proposal-class-properties": "^7.18.6",
+        "@babel/plugin-proposal-decorators": "^7.18.10",
         "@babel/preset-typescript": "^7.18.6",
         "babel-plugin-transform-jsbi-to-bigint": "^1.4.0",
         "madge": "^5.0.1",
