@@ -6,7 +6,7 @@ export type NBI = number | BI;
 export namespace BIEx {
 
     const jsbiCommonMapCache: Map<number, BI> = new Map();
-    export function toBI(value: NBI): BI {
+    export function toBI(value: NBI | string): BI {
         if (typeof value == 'number') {
             let ret: BI = null;
             const intValue = Math.round(value);
@@ -20,11 +20,15 @@ export namespace BIEx {
 
             return ret || JSBI.BigInt(intValue);
         }
-        else return value;
+        else if (typeof value == 'string') {
+            return JSBI.BigInt(value)
+        }
+        return value;
     }
 
-    export function toNumTry(value: NBI): NBI {
+    export function toNumTry(value: NBI | string): NBI {
         if (typeof value == 'number') return value;
+        if (typeof value == 'string') value = toBI(value);
 
         if (JSBI.greaterThan(value, Number_MIN_SAFE_INTEGER) && JSBI.lessThan(value, Number_MAX_SAFE_INTEGER)) {
             return JSBI.toNumber(value);

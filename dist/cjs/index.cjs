@@ -18,13 +18,18 @@ export let BIEx;
       }
 
       return ret || BigInt(intValue);
-    } else return value;
+    } else if (typeof value == 'string') {
+      return BigInt(value);
+    }
+
+    return value;
   }
 
   _BIEx.toBI = toBI;
 
   function toNumTry(value) {
     if (typeof value == 'number') return value;
+    if (typeof value == 'string') value = toBI(value);
 
     if (value > Number_MIN_SAFE_INTEGER && value < Number_MAX_SAFE_INTEGER) {
       return Number(value);

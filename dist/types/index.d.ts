@@ -1,8 +1,8 @@
 export declare type BI = bigint;
 export declare type NBI = number | BI;
 export declare namespace BIEx {
-    function toBI(value: NBI): BI;
-    function toNumTry(value: NBI): NBI;
+    function toBI(value: NBI | string): BI;
+    function toNumTry(value: NBI | string): NBI;
     function toNum(value: NBI): number;
     const precision = 10000;
     const bprecision: BI;
