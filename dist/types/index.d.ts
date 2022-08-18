@@ -4,6 +4,8 @@ export declare namespace BIEx {
     function toBI(value: NBI | string): BI;
     function toNumTry(value: NBI | string): NBI;
     function toNum(value: NBI): number;
+    function isBI(value: NBI): boolean;
+    function toStr(value: NBI, radix?: number): string;
     const precision = 10000;
     const bprecision: BI;
     const Number_MIN_SAFE_INTEGER: BI;

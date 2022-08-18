@@ -57,6 +57,18 @@ export let BIEx;
   }
 
   _BIEx.toNum = toNum;
+
+  function isBI(value) {
+    return typeof value == 'number' ? false : true;
+  }
+
+  _BIEx.isBI = isBI;
+
+  function toStr(value, radix) {
+    return value.toString(radix);
+  }
+
+  _BIEx.toStr = toStr;
   const precision = _BIEx.precision = 10000;
   const bprecision = _BIEx.bprecision = toBI(precision);
   const Number_MIN_SAFE_INTEGER = _BIEx.Number_MIN_SAFE_INTEGER = toBI(Number.MIN_SAFE_INTEGER);
@@ -182,7 +194,7 @@ export let BIEx;
   function Sub(a, b) {
     if (typeof a == 'number' && typeof b == 'number' && !Number.isNaN(a) && Number.isFinite(a) && !Number.isNaN(b) && Number.isFinite(b) && Number.isSafeInteger(Math.floor(Math.abs(a))) && Number.isSafeInteger(Math.floor(Math.abs(b))) && Number.isSafeInteger(Math.floor(Math.abs(a - b)))) {
       // safe number
-      return a + b;
+      return a - b;
     } else {
       let ba = typeof a == 'number' ? toBI(a) : a;
       let bb = typeof b == 'number' ? toBI(b) : b;
@@ -233,7 +245,7 @@ export let BIEx;
   function Div(value, div) {
     if (typeof value == 'number' && typeof div == 'number' && !Number.isNaN(value) && Number.isFinite(value) && !Number.isNaN(div) && Number.isFinite(div) && Number.isSafeInteger(Math.floor(Math.abs(value))) && Number.isSafeInteger(Math.floor(Math.abs(div))) && div != 0) {
       // safe number
-      return value * div;
+      return value / div;
     } else {
       // big int 
       let bi = typeof value == 'number' ? toBI(value) : value;
