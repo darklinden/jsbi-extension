@@ -10,7 +10,7 @@ const node_modules = path.join(__dirname, '..', 'node_modules')
 const result = execSync("ls " + node_modules, { encoding: 'utf8' });
 const packages = result.split('\n')
 
-const folder = path.join(__dirname, '..', 'dist', 'esm');
+const folder = path.join(__dirname, '..', 'test', 'esm');
 
 function walkDir(dir, callback) {
     fs.readdirSync(dir).forEach(f => {
@@ -36,14 +36,19 @@ walkDir(folder, file_path => {
 
             let original = fs.readFileSync(des_path, { encoding: 'utf8' });
 
-            // let lines = original.split('\n');
-            // for (let i = 0; i < lines.length; i++) {
-            //     let line = lines[i];
-            //     line = line.replace(/from [\",'](.*)[\",']/g, 'from "' + '$1' + '.mjs"');
-            //     lines[i] = line;
-            // }
+            let lines = original.split('\n');
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                const m = line.match(/from\W*['\"](.*)['\"]/);
+                if (m) {
+                    if (packages.indexOf(m[1]) == -1) {
+                        line = line.replace(/from\W*\"(.*)\"/g, 'from \'' + '$1' + '.mjs\';');
+                        lines[i] = line;
+                    }
+                }
+            }
 
-            // original = lines.join('\n');
+            original = lines.join('\n');
             fs.writeFileSync(des_path, original);
         });
     }

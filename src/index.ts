@@ -51,6 +51,14 @@ export namespace BIEx {
         return JSBI.toNumber(value);
     }
 
+    export function isBI(value: NBI): boolean {
+        return typeof value == 'number' ? false : true;
+    }
+
+    export function toStr(value: NBI, radix?: number): string {
+        return value.toString(radix);
+    }
+
     export const precision = 10000;
     export const bprecision: BI = toBI(precision);
     export const Number_MIN_SAFE_INTEGER: BI = toBI(Number.MIN_SAFE_INTEGER);
@@ -157,7 +165,7 @@ export namespace BIEx {
             && Number.isSafeInteger(Math.floor(Math.abs(b)))
             && Number.isSafeInteger(Math.floor(Math.abs(a - b)))) {
             // safe number
-            return a + b;
+            return a - b;
         }
         else {
             let ba: BI = typeof a == 'number' ? toBI(a) : a;
@@ -219,7 +227,7 @@ export namespace BIEx {
             && Number.isSafeInteger(Math.floor(Math.abs(div)))
             && div != 0) {
             // safe number
-            return value * div;
+            return value / div;
         }
         else {
             // big int 
