@@ -26,7 +26,8 @@
     "scripts": {
         "watch": "tsc --watch --noEmit --noErrorTruncation --pretty",
         "build-cjs": "rm -rf ./dist && npm i && npx tsc --project tsconfig.cjs.json && node ./tools/wrap-cjs-babel-jsbi && rm -rf ./node_modules",
-        "build-esm": "rm -rf ./dist && npm i && npx tsc --project tsconfig.esm.json && node ./tools/wrap-esm && rm -rf ./node_modules"
+        "build-esm": "rm -rf ./dist && npm i && npx tsc --project tsconfig.esm.json && node ./tools/wrap-esm && rm -rf ./node_modules",
+        "test": "rm -rf ./test/esm && npx tsc -t es2015 -experimentalDecorators true -moduleResolution node test/test.ts -outDir ./test/esm && node ./tools/wrap-test && node ./test/esm/test/test.mjs && rm -rf ./test/esm"
     },
     "devDependencies": {
         "@babel/core": "^7.18.10",
